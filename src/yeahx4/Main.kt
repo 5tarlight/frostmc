@@ -9,7 +9,7 @@ class Main: JavaPlugin() {
     }
 
     public override fun onEnable() {
-        getCommand("plugins")?.setExecutor(Plugin())
+        getCommand("plugin")?.setExecutor(Plugin())
 
         println("YEAHx4 plugin enabled")
     }
