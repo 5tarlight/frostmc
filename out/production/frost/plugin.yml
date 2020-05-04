@@ -5,3 +5,7 @@ commands:
   plugin:
     description: "info of this plugin"
     aliases: ["플러그인", "플긘"]
+
+  areatrigger:
+    description: "set trigger within the given area"
+    aliases: ["지역트리거"]
