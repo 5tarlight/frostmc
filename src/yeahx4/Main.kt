@@ -1,13 +1,20 @@
 package yeahx4
 
 import org.bukkit.plugin.java.JavaPlugin
+import yeahx4.command.Plugin
 
 class Main: JavaPlugin() {
+    public override fun onLoad() {
+        println("Loading YEAHx4 plugin")
+    }
+
     public override fun onEnable() {
-        println("YEAHx4 플러그인 활성화")
+        getCommand("plugins")?.setExecutor(Plugin())
+
+        println("YEAHx4 plugin enabled")
     }
 
     public override fun onDisable() {
-        println("YEAHx4 플러그인 비활성화")
+        println("YEAHx4 plugin disabled")
     }
 }
