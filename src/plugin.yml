@@ -1,11 +1,15 @@
 name: yeahx4
-version: 1.0.0
+version: 1.0.1
 main: yeahx4.Main
 commands:
   plugin:
     description: "info of this plugin"
-    aliases: ["플러그인", "플긘"]
+    aliases: []
 
   areatrigger:
     description: "set trigger within the given area"
-    aliases: ["지역트리거"]
+    aliases: []
+
+  gettrigger:
+    description: "get trigger by name"
+    aliases: []

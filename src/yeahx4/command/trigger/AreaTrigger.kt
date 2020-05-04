@@ -11,7 +11,8 @@ import org.bukkit.entity.Player
 import java.io.*
 import java.lang.NumberFormatException
 
-class AreaTrigger : CommandExecutor {
+class AreaTrigger : CommandExecutor, Serializable {
+
     data class TriggerInfo (
             val loc1: Triple<Double, Double, Double>,
             val loc2: Triple<Double, Double, Double>,
@@ -113,7 +114,7 @@ class AreaTrigger : CommandExecutor {
         try {
             oos.writeObject(result)
         } catch (ex1: NotSerializableException) {
-            println(ExceptionUtils.getStackTrace(ex1))
+            println(ExceptionUtils.getCause(ex1))
             sender.sendMessage("${ChatColor.RED}NotSerializableException - writing")
             return false
         } catch (ex2: InvalidClassException) {
