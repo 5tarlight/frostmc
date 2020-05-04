@@ -2,6 +2,6 @@ name: yeahx4
 version: 1.0.0
 main: yeahx4.Main
 commands:
-  plugins:
+  plugin:
     description: "info of this plugin"
     aliases: ["플러그인", "플긘"]
