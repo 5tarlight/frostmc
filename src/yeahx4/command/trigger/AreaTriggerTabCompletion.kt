@@ -28,7 +28,7 @@ class AreaTriggerTabCompletion : TabCompleter {
                     for (file in files) {
                         list.add(file.name.split(".")[0])
                     }
-                    return mutableListOf()
+                    return list
                 } catch (ex1: SecurityException) {
                     sender.sendMessage("SecurityException")
                     return mutableListOf()
