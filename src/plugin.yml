@@ -8,8 +8,12 @@ commands:
 
   areatrigger:
     description: "set trigger within the given area"
-    aliases: []
+    aliases: ["at"]
 
   gettrigger:
     description: "get trigger by name"
-    aliases: []
+    aliases: ["gt"]
+
+  reloadtrigger:
+    description: "reload trigger list"
+    aliases: ["rt"]
