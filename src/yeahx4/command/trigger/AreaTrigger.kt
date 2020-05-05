@@ -179,7 +179,6 @@ class AreaTrigger : CommandExecutor, Serializable {
                     sender.sendMessage("트리거가 없습니다.")
                     return false
                 }
-
                 for (file in files) {
                     sender.sendMessage(file.name)
                 }

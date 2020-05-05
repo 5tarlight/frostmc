@@ -1,5 +1,5 @@
 name: yeahx4
-version: 1.0.1
+version: 0.0.1-alpha
 main: yeahx4.Main
 commands:
   plugin:
