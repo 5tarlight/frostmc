@@ -35,7 +35,10 @@ class GetTrigger : CommandExecutor {
             }
 
             val info: AreaTrigger.TriggerInfo = trigger
-            sender.sendMessage(info.toString())
+
+            sender.sendMessage("loc1 : ${info.loc1}")
+            sender.sendMessage("loc2 : ${info.loc2}")
+            sender.sendMessage("actionType : ${info.action.actionType}")
             
             return true
         } catch (ex1: SecurityException) {
