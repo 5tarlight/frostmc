@@ -47,14 +47,16 @@ class AreaTrigger : CommandExecutor, Serializable {
 
         if (
                 args.isEmpty()
-                || args[1] == "add" && args.size < 9
-                || args[1] == "remove" && args.size < 2
-                || args[1] == "list" && args.isEmpty() // is it necessary?
+                || args[0] != "list"
+                && (args[0] == "add" && args.size < 9
+                || args[0] == "remove" && args.size < 2
+                || args[0] == "list" && args.isEmpty()) // is it necessary?
         ) {
             sender.sendMessage("")
             sender.sendMessage("=======사용법=======")
-            sender.sendMessage("/areatrigger <name> add <x1> <y1> <z1> <x2> <y2> <z2> <actionType>")
-            sender.sendMessage("/areatrigger <name> remove")
+            sender.sendMessage("/areatrigger add <name> <x1> <y1> <z1> <x2> <y2> <z2> <actionType>")
+            sender.sendMessage("/areatrigger remove <name>")
+            sender.sendMessage("/areatrigger list")
             sender.sendMessage("(x1, y1, z1) ~ (x2, y2, z2) 사이의 진입을 감시합니다.")
             sender.sendMessage("==================")
             sender.sendMessage("")
@@ -62,12 +64,12 @@ class AreaTrigger : CommandExecutor, Serializable {
             return false
         }
 
-        if (args[1] != "add" && args[1] != "remove" && args[1] != "list") {
+        if (args[0] != "list" && args.size > 1 && args[0] != "add" && args[0] != "remove") {
             sender.sendMessage("${ChatColor.RED}Invalid operation type")
             return false
         }
 
-        if (args[1] == "add") {
+        if (args[0] == "add") {
             val action: TriggerAction? = when (args[8]) {
                 "tp" -> TpAction(args)
                 else -> null
@@ -92,7 +94,7 @@ class AreaTrigger : CommandExecutor, Serializable {
             }
 
             val dir = File("./plugins/yeahx4/trigger")
-            val root = File(dir, "${args[0]}.yeahx4")
+            val root = File(dir, "${args[1]}.yeahx4")
 
             if(!dir.exists()) {
                 dir.mkdirs()
@@ -141,10 +143,10 @@ class AreaTrigger : CommandExecutor, Serializable {
 
             sender.sendMessage("트리거가 추가되었습니다.")
             return true
-        } else if (args[1] == "remove"){
+        } else if (args[0] == "remove"){
             try {
                 val dir = File("./plugins/yeahx4/trigger")
-                val root = File(dir, "${args[0]}.yeahx4")
+                val root = File(dir, "${args[1]}.yeahx4")
 
                 if (!dir.exists() || !root.exists()) {
                     sender.sendMessage("해당 트리거를 찾을 수 없습니다.")
@@ -153,7 +155,7 @@ class AreaTrigger : CommandExecutor, Serializable {
 
                 root.delete()
 
-                sender.sendMessage("${args[0]} 트리거 삭제")
+                sender.sendMessage("${args[1]} 트리거 삭제")
                 return true
             } catch (ex1: SecurityException) {
                 sender.sendMessage("SecurityException")
@@ -185,7 +187,10 @@ class AreaTrigger : CommandExecutor, Serializable {
             } catch (ex1: SecurityException) {
                 sender.sendMessage("SecurityException")
                 return false
-            } catch (ex2: IOException) {
+            } catch (ex2: ClassNotFoundException) {
+                sender.sendMessage("ClassNotFoundException")
+                return false
+            } catch (ex3: IOException) {
                 sender.sendMessage("IOException")
                 return false
             }
