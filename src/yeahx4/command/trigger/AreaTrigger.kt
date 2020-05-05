@@ -181,7 +181,7 @@ class AreaTrigger : CommandExecutor, Serializable {
                 }
 
                 for (file in files) {
-                    sender.sendMessage(file.name.split(".")[0])
+                    sender.sendMessage(file.name)
                 }
                 return true
             } catch (ex1: SecurityException) {
