@@ -19,11 +19,6 @@ fun reload(sender: CommandSender): Boolean {
 
         val files = dir.listFiles()
 
-        if (files == null || files.isEmpty()) {
-            sender.sendMessage("트리거가 없습니다.")
-            return false
-        }
-
         if (triggerList.isNotEmpty()) {
             triggerList.clear()
         }
@@ -33,6 +28,8 @@ fun reload(sender: CommandSender): Boolean {
             val ois = ObjectInputStream(fis)
 
             val obj = ois.readObject()
+            ois.close()
+
             if (obj !is AreaTrigger.TriggerInfo) {
                 println("유효하지 않은 파일 (${file.nameWithoutExtension}) 스킵")
                 continue
@@ -79,6 +76,7 @@ class GetTrigger : CommandExecutor {
             val ois = ObjectInputStream(fis)
 
             val trigger = ois.readObject()
+            ois.close()
 
             if(trigger !is AreaTrigger.TriggerInfo) {
                 sender.sendMessage("${ChatColor.RED}유효하지 않은 파일입니다.")

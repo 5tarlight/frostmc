@@ -28,7 +28,7 @@ class AreaTrigger : CommandExecutor, Serializable {
 
     inner class TpAction (private var args: Array<out String> = arrayOf()): TriggerAction("tp"), Serializable {
         override fun execute(trigger: Player): Boolean {
-            val loc = Location(Bukkit.getWorld("default"), args[8].toDouble(), args[9].toDouble(), args[10].toDouble())
+            val loc = Location(Bukkit.getWorld("world"), args[9].toDouble(), args[10].toDouble(), args[11].toDouble())
             trigger.teleport(loc)
             return true
         }
