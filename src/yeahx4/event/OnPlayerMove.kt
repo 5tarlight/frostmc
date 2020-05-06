@@ -22,7 +22,7 @@ class OnPlayerMove : Listener {
             val z1 = if (trigger.loc1.third <= trigger.loc2.third) trigger.loc1.third else trigger.loc2.third
             val z2 = if (trigger.loc1.third <= trigger.loc2.third) trigger.loc2.third else trigger.loc1.third
 
-            if (loc.x in x1..x2 && loc.y in y1..y2 && loc.z in z1..z2) {
+            if (loc.x in (x1 - 0.5)..(x2 + 0.5) && loc.y in (y1 - 0.5)..(y2 + 0.5) && loc.z in (z1 - 0.5)..(z2 + 0.5)) {
                 trigger.action.execute(e.player)
             }
         }
