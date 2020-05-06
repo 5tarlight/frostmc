@@ -1,6 +1,5 @@
 package yeahx4.event
 
-import org.bukkit.Location
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerMoveEvent
@@ -8,7 +7,7 @@ import yeahx4.command.trigger.GetTrigger
 
 class OnPlayerMove : Listener {
     @EventHandler
-    @SuppressWarnings("unused")
+    @SuppressWarnings("unused", "unprotected")
     fun onPlayerMove(e: PlayerMoveEvent) {
         val loc = e.to ?: return
 
