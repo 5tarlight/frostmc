@@ -58,6 +58,11 @@ class GetTrigger : CommandExecutor {
     }
 
     override fun onCommand(sender: CommandSender, cmd: Command, s: String, args: Array<out String>): Boolean {
+        if (!sender.isOp) {
+            sender.sendMessage("${ChatColor.RED}You don't have permissions to do this")
+            return false
+        }
+
         if (args.isEmpty()) {
             sender.sendMessage("/gettrigger <name>")
             return false
