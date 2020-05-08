@@ -6,14 +6,13 @@ import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.io.*
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
-class DailyClaim : CommandExecutor {
+class DailyClaim : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, s: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
             sender.sendMessage("${ChatColor.RED}Only players can use this.")
@@ -113,5 +112,9 @@ class DailyClaim : CommandExecutor {
             sender.sendMessage("${ChatColor.RED}IOException")
             return false
         }
+    }
+
+    override fun onTabComplete(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>): MutableList<String> {
+        return mutableListOf()
     }
 }

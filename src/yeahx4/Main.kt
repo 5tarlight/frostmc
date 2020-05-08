@@ -26,6 +26,7 @@ class Main: JavaPlugin() {
         getCommand("reloadtrigger")?.tabCompleter = ReloadTrigger()
 
         getCommand("claim")?.setExecutor(DailyClaim())
+        getCommand("claim")?.tabCompleter = DailyClaim()
 
         server.pluginManager.registerEvents(OnPlayerMove(), this)
 
