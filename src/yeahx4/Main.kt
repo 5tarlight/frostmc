@@ -3,6 +3,7 @@ package yeahx4
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import yeahx4.command.Plugin
+import yeahx4.command.claim.DailyClaim
 import yeahx4.command.trigger.*
 import yeahx4.event.OnPlayerMove
 
@@ -23,6 +24,8 @@ class Main: JavaPlugin() {
 
         getCommand("reloadtrigger")?.setExecutor(ReloadTrigger())
         getCommand("reloadtrigger")?.tabCompleter = ReloadTrigger()
+
+        getCommand("claim")?.setExecutor(DailyClaim())
 
         server.pluginManager.registerEvents(OnPlayerMove(), this)
 

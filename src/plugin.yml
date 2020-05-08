@@ -17,3 +17,7 @@ commands:
   reloadtrigger:
     description: "reload trigger list"
     aliases: ["rt"]
+
+  claim:
+    description: "daily claim"
+    aliases: ["보상", "일일보상"]
