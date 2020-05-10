@@ -56,6 +56,40 @@ class Money : CommandExecutor {
                         sender.sendMessage("${target[0].name} 의 돈을 ${args[2].toDouble()}으로 지정했습니다.")
                         return true
                     }
+                    "send" -> {
+                        if (args.size < 3) {
+                            sender.sendMessage("사용법 : money send <user> <money>")
+                            return false
+                        }
+
+                        val target = Bukkit.getOfflinePlayers().filter { p -> p.name == args[1] }
+
+                        if (target.isEmpty()) {
+                            sender.sendMessage("해당 유저를 찾을 수 없습니다.")
+                            return false
+                        }
+
+                        val remit = read(root)
+                        val recip = read(File(dir, "${target[0].uniqueId}.yeahx4"))
+                        val smoney = args[2].toDouble()
+
+                        if (remit < smoney) {
+                            sender.sendMessage("${ChatColor.RED}돈이 모자랍니다.")
+                            return false
+                        }
+
+                        overwrite(root, remit - smoney)
+                        overwrite(File(dir, "${target[0].uniqueId}.yeahx4"), recip + smoney)
+
+                        sender.sendMessage("${target[0].name}님 에게 ${smoney}눈꽃을 보냈습니다.")
+
+                        if (target[0].isOnline && target[0] is Player) {
+                            val p = target[0] as Player
+                            p.sendMessage("${sender.name}님 께서 ${smoney}눈꽃을 보냈습니다.")
+                        }
+
+                        return true
+                    }
                 }
             }
         } catch (ex1: SecurityException) {
