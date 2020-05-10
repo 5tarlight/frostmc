@@ -69,129 +69,132 @@ class AreaTrigger : CommandExecutor, Serializable {
             return false
         }
 
-        if (args[0] == "add") {
-            val action: TriggerAction? = when (args[8]) {
-                "tp" -> TpAction(args)
-                else -> null
-            }
-
-            if(action == null) {
-                sender.sendMessage("${ChatColor.RED}invalid action type or action syntax")
-
-                return false
-            }
-
-            var result: TriggerInfo
-            try {
-                result = TriggerInfo(
-                        Triple(args[2].toDouble(), args[3].toDouble(), args[4].toDouble()),
-                        Triple(args[5].toDouble(), args[6].toDouble(), args[7].toDouble()),
-                        action
-                )
-            } catch (e: NumberFormatException) {
-                sender.sendMessage("${ChatColor.RED}Invalid Number")
-                return false
-            }
-
-            val dir = File("./plugins/yeahx4/trigger")
-            val root = File(dir, "${args[1]}.yeahx4")
-
-            if(!dir.exists()) {
-                dir.mkdirs()
-            }
-
-            try {
-                if(!root.exists()) {
-                    root.createNewFile()
-                } else {
-                    root.delete()
-                    root.createNewFile()
+        when {
+            args[0] == "add" -> {
+                val action: TriggerAction? = when (args[8]) {
+                    "tp" -> TpAction(args)
+                    else -> null
                 }
-            } catch (ex: IOException) {
-                sender.sendMessage("${ChatColor.RED}Error occurred while creating trigger file. To more details, please check log")
-                return false
-            }
 
+                if(action == null) {
+                    sender.sendMessage("${ChatColor.RED}invalid action type or action syntax")
 
+                    return false
+                }
 
-            val fos: FileOutputStream
-            val oos: ObjectOutputStream
+                val result: TriggerInfo
+                try {
+                    result = TriggerInfo(
+                            Triple(args[2].toDouble(), args[3].toDouble(), args[4].toDouble()),
+                            Triple(args[5].toDouble(), args[6].toDouble(), args[7].toDouble()),
+                            action
+                    )
+                } catch (e: NumberFormatException) {
+                    sender.sendMessage("${ChatColor.RED}Invalid Number")
+                    return false
+                }
 
-            try {
-                fos = FileOutputStream(root)
-                oos = ObjectOutputStream(fos)
-            } catch (ex: IOException) {
-                sender.sendMessage("${ChatColor.RED}Error occured while creating stream . To more details, please check log")
-                return false
-            }
-
-            try {
-                oos.writeObject(result)
-            } catch (ex1: NotSerializableException) {
-                println(ExceptionUtils.getCause(ex1))
-                sender.sendMessage("${ChatColor.RED}NotSerializableException - writing")
-                return false
-            } catch (ex2: InvalidClassException) {
-                sender.sendMessage("${ChatColor.RED}InvalidClassException - writing")
-                return false
-            } catch (ex3: IOException) {
-                sender.sendMessage("${ChatColor.RED}IOException - writing")
-                return false
-            } finally {
-                oos.close()
-            }
-
-            sender.sendMessage("트리거가 추가되었습니다.")
-            return true
-        } else if (args[0] == "remove"){
-            try {
                 val dir = File("./plugins/yeahx4/trigger")
                 val root = File(dir, "${args[1]}.yeahx4")
 
-                if (!dir.exists() || !root.exists()) {
-                    sender.sendMessage("해당 트리거를 찾을 수 없습니다.")
-                    return false
-                }
-
-                root.delete()
-
-                sender.sendMessage("${args[1]} 트리거 삭제")
-                return true
-            } catch (ex1: SecurityException) {
-                sender.sendMessage("SecurityException")
-                return false
-            } catch (ex2: IOException) {
-                sender.sendMessage("IOException")
-                return false
-            }
-
-        } else {
-            try {
-                val dir = File("./plugins/yeahx4/trigger")
-
-                if (!dir.exists()) {
+                if(!dir.exists()) {
                     dir.mkdirs()
                 }
 
-                val files = dir.listFiles()
-
-                if (files == null || files.isEmpty()) {
-                    sender.sendMessage("트리거가 없습니다.")
+                try {
+                    if(!root.exists()) {
+                        root.createNewFile()
+                    } else {
+                        root.delete()
+                        root.createNewFile()
+                    }
+                } catch (ex: IOException) {
+                    sender.sendMessage("${ChatColor.RED}Error occurred while creating trigger file. To more details, please check log")
                     return false
                 }
-                for (file in files) {
-                    sender.sendMessage(file.name)
+
+
+                val fos: FileOutputStream
+                val oos: ObjectOutputStream
+
+                try {
+                    fos = FileOutputStream(root)
+                    oos = ObjectOutputStream(fos)
+                } catch (ex: IOException) {
+                    sender.sendMessage("${ChatColor.RED}Error occured while creating stream . To more details, please check log")
+                    return false
                 }
+
+                try {
+                    oos.writeObject(result)
+                } catch (ex1: NotSerializableException) {
+                    println(ExceptionUtils.getCause(ex1))
+                    sender.sendMessage("${ChatColor.RED}NotSerializableException - writing")
+                    return false
+                } catch (ex2: InvalidClassException) {
+                    sender.sendMessage("${ChatColor.RED}InvalidClassException - writing")
+                    return false
+                } catch (ex3: IOException) {
+                    sender.sendMessage("${ChatColor.RED}IOException - writing")
+                    return false
+                } finally {
+                    oos.close()
+                }
+
+                sender.sendMessage("트리거가 추가되었습니다.")
                 return true
-            } catch (ex1: SecurityException) {
-                sender.sendMessage("SecurityException")
-                return false
-            } catch (ex2: ClassNotFoundException) {
-                sender.sendMessage("ClassNotFoundException")
-                return false
-            } catch (ex3: IOException) {
-                sender.sendMessage("IOException")
-                return false
+            }
+            args[0] == "remove" -> {
+                try {
+                    val dir = File("./plugins/yeahx4/trigger")
+                    val root = File(dir, "${args[1]}.yeahx4")
+
+                    if (!dir.exists() || !root.exists()) {
+                        sender.sendMessage("해당 트리거를 찾을 수 없습니다.")
+                        return false
+                    }
+
+                    root.delete()
+
+                    sender.sendMessage("${args[1]} 트리거 삭제")
+                    return true
+                } catch (ex1: SecurityException) {
+                    sender.sendMessage("SecurityException")
+                    return false
+                } catch (ex2: IOException) {
+                    sender.sendMessage("IOException")
+                    return false
+                }
+
+            }
+            else -> {
+                try {
+                    val dir = File("./plugins/yeahx4/trigger")
+
+                    if (!dir.exists()) {
+                        dir.mkdirs()
+                    }
+
+                    val files = dir.listFiles()
+
+                    if (files == null || files.isEmpty()) {
+                        sender.sendMessage("트리거가 없습니다.")
+                        return false
+                    }
+                    for (file in files) {
+                        sender.sendMessage(file.name)
+                    }
+                    return true
+                } catch (ex1: SecurityException) {
+                    sender.sendMessage("SecurityException")
+                    return false
+                } catch (ex2: ClassNotFoundException) {
+                    sender.sendMessage("ClassNotFoundException")
+                    return false
+                } catch (ex3: IOException) {
+                    sender.sendMessage("IOException")
+                    return false
+                }
             }
         }
     }
