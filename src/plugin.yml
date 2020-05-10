@@ -21,3 +21,7 @@ commands:
   claim:
     description: "daily claim"
     aliases: ["보상", "일일보상"]
+
+  money:
+    description: "check and send money."
+    aliases: ["돈"]
