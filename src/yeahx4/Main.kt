@@ -6,7 +6,9 @@ import yeahx4.command.Plugin
 import yeahx4.command.claim.DailyClaim
 import yeahx4.command.monetary.Money
 import yeahx4.command.monetary.MoneyTabCompletion
+import yeahx4.command.monetary.flea.Flea
 import yeahx4.command.trigger.*
+import yeahx4.event.OnInventoryClick
 import yeahx4.event.OnPlayerMove
 import yeahx4.event.OnPlayerRegainHealth
 
@@ -34,8 +36,11 @@ class Main: JavaPlugin() {
         getCommand("money")?.setExecutor(Money())
         getCommand("money")?.tabCompleter = MoneyTabCompletion()
 
+        getCommand("flea")?.setExecutor(Flea())
+
         server.pluginManager.registerEvents(OnPlayerMove(), this)
         server.pluginManager.registerEvents(OnPlayerRegainHealth(), this)
+        server.pluginManager.registerEvents(OnInventoryClick(), this)
 
         reload(Bukkit.getConsoleSender())
         println("YEAHx4 plugin enabled")

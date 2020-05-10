@@ -25,3 +25,7 @@ commands:
   money:
     description: "check and send money."
     aliases: ["돈"]
+
+  flea:
+    description: "open flea macket"
+    aliases: ["플리", "플리마켓"]
