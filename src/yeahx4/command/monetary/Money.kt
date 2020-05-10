@@ -1,4 +1,4 @@
-package yeahx4.command.money
+package yeahx4.command.monetary
 
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
