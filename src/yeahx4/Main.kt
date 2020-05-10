@@ -7,6 +7,7 @@ import yeahx4.command.claim.DailyClaim
 import yeahx4.command.money.Money
 import yeahx4.command.trigger.*
 import yeahx4.event.OnPlayerMove
+import yeahx4.event.OnPlayerRegainHealth
 
 class Main: JavaPlugin() {
     public override fun onLoad() {
@@ -32,6 +33,7 @@ class Main: JavaPlugin() {
         getCommand("money")?.setExecutor(Money())
 
         server.pluginManager.registerEvents(OnPlayerMove(), this)
+        server.pluginManager.registerEvents(OnPlayerRegainHealth(), this)
 
         reload(Bukkit.getConsoleSender())
         println("YEAHx4 plugin enabled")
