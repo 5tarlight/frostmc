@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin
 import yeahx4.command.Plugin
 import yeahx4.command.claim.DailyClaim
 import yeahx4.command.money.Money
+import yeahx4.command.money.MoneyTabCompletion
 import yeahx4.command.trigger.*
 import yeahx4.event.OnPlayerMove
 import yeahx4.event.OnPlayerRegainHealth
@@ -31,6 +32,7 @@ class Main: JavaPlugin() {
         getCommand("claim")?.tabCompleter = DailyClaim()
 
         getCommand("money")?.setExecutor(Money())
+        getCommand("money")?.tabCompleter = MoneyTabCompletion()
 
         server.pluginManager.registerEvents(OnPlayerMove(), this)
         server.pluginManager.registerEvents(OnPlayerRegainHealth(), this)
