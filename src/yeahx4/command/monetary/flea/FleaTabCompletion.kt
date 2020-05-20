@@ -7,6 +7,10 @@ import org.bukkit.command.TabCompleter
 
 class FleaTabCompletion : TabCompleter {
     override fun onTabComplete(p0: CommandSender, p1: Command, p2: String, args: Array<out String>): MutableList<String> {
-        return mutableListOf()
+        return when (args.size) {
+            1 -> mutableListOf("search", "buy", "sell")
+            2 -> mutableListOf()
+            else -> mutableListOf()
+        }
     }
 }
