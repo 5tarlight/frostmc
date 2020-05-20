@@ -17,27 +17,50 @@ class Flea : CommandExecutor {
         }
 
         if (args.isEmpty()) {
-            sender.sendMessage("사용법 : /flea <item> [tag]")
+            sender.sendMessage("/flea <search|sell|buy> [item]")
             return false
+        } else {
+            when (args[0]) {
+                "search" -> {
+                    if (args.size < 2) {
+                        sender.sendMessage("/flea search <item> [tag]")
+                        return false
+                    }
+
+                    val mat = Material.getMaterial(args[1].toUpperCase())
+
+                    if (mat == null || mat.isAir) {
+                        sender.sendMessage("해당 아이템을 찾을 수 없습니다.")
+                        return false
+                    }
+
+                    val tag = if (args.size > 3) {
+                        args[2].toInt()
+                    } else {
+                        0
+                    }
+
+                    searchFlea(sender, mat, tag)
+                    return true
+                }
+                else -> {
+                    sender.sendMessage("잘못된 사용입니다.")
+                    sender.sendMessage("/flea <search|sell|buy> [item]")
+                    return false
+                }
+            }
         }
+    }
 
-        val mat = Material.getMaterial(args[0].toUpperCase())
-
+    fun searchFlea (sender: Player, mat: Material, tag: Int): Boolean {
         if (mat == null) {
             sender.sendMessage("해당 아이템을 찾을 수 없습니다.")
             return false
         }
 
-        var tag = 0
-
-        if (args.size > 1) {
-            tag = args[1].toInt()
-        }
-
         val inv = Bukkit.createInventory(sender, 9 * 6, "Flea Market")
 
         GUIUtil.createItemByte(inv, mat, tag, 1, 5, null, mutableListOf())
-
         sender.openInventory(inv)
 
         return true
