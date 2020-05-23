@@ -17,19 +17,8 @@ class Money : CommandExecutor {
         }
 
         try {
-            val dir = File("./plugins/yeahx4/money")
-            val root = File(dir, "${sender.uniqueId}.yeahx4");
-
-            if (!dir.exists()) {
-                dir.mkdirs()
-            }
-
-            if (!root.exists()) {
-                overwrite(root, 100.0);
-            }
-
             if (args.isEmpty()) {
-                val money = read(root)
+                val money = MoneyManager.getMoney(sender)
                 sender.sendMessage("현재 보유자산 : ${money}눈꽃")
                 return true
             } else {
@@ -52,8 +41,14 @@ class Money : CommandExecutor {
                             return false
                         }
 
-                        overwrite(File(dir, "${target[0].uniqueId}.yeahx4"), args[2].toDouble())
+                        MoneyManager.setMoney(target[0] as Player, args[2].toDouble())
                         sender.sendMessage("${target[0].name} 의 돈을 ${args[2].toDouble()}으로 지정했습니다.")
+
+                        if (target[0].isOnline && target[0] is Player) {
+                            val p = target[0] as Player
+                            p.sendMessage("${sender.name}님 께서 당신의 돈을 ${args[2].toDouble()}눈꽃 으로 지정했습니다.")
+                        }
+
                         return true
                     }
                     "send" -> {
@@ -69,8 +64,13 @@ class Money : CommandExecutor {
                             return false
                         }
 
-                        val remit = read(root)
-                        val recip = read(File(dir, "${target[0].uniqueId}.yeahx4"))
+                        if (sender.uniqueId.equals(target[0].uniqueId)) {
+                            sender.sendMessage("자기자신에게 송금 할 수 없습니다.")
+                            return false
+                        }
+
+                        val remit = MoneyManager.getMoney(sender)
+                        val recip = MoneyManager.getMoney(target[0] as Player)
                         val smoney = args[2].toDouble()
 
                         if (remit < smoney) {
@@ -78,8 +78,8 @@ class Money : CommandExecutor {
                             return false
                         }
 
-                        overwrite(root, remit - smoney)
-                        overwrite(File(dir, "${target[0].uniqueId}.yeahx4"), recip + smoney)
+                        MoneyManager.setMoney(sender, remit - smoney)
+                        MoneyManager.setMoney(target[0] as Player, recip + smoney)
 
                         sender.sendMessage("${target[0].name}님 에게 ${smoney}눈꽃을 보냈습니다.")
 
@@ -103,34 +103,5 @@ class Money : CommandExecutor {
             return false
         }
         return false
-    }
-
-    @Throws(SecurityException::class, IOException::class)
-    private fun overwrite(root: File, money: Double) {
-        if (root.exists()) {
-            root.delete()
-            root.createNewFile()
-        }
-
-        val fos = FileOutputStream(root)
-        val oos = ObjectOutputStream(fos)
-
-        oos.writeDouble(money);
-
-        oos.close()
-        fos.close()
-    }
-
-    @Throws(SecurityException::class, IOException::class)
-    private fun read(root: File): Double {
-        val fis = FileInputStream(root)
-        val ois = ObjectInputStream(fis)
-
-        val money = ois.readDouble()
-
-        ois.close()
-        fis.close()
-
-        return money
     }
 }
